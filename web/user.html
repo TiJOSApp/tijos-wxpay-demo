@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="lib/axios.min.js"></script>
+    <script src="lib/jquery.min.js"></script>
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <span>昵称:</span>
+    <span id="name"></span>
+</div>
+<div>
+    <span>性别:</span>
+    <span id="sex"></span>
+</div>
+<div>
+    <span>国籍:</span>
+    <span id="country"></span>
+</div>
+<div>
+    <span>头像:</span>
+    <img id="photo" src="" alt="">
+</div>
+<div>
+    <span>openId:</span>
+    <span id="openId"></span>
+</div>
+<script>
+    // 获取url参数
+    axios.get('http://demo.tijos.net:8080/wx/userInfo/' + getUrlParam('code')).then(res =>{
+        $('#name').text(res.data.nickname);
+        $('#sex').text(res.data.sex == '1' ? '男' : '女');
+        $('#country').text(res.data.country);
+        $('#openId').text(res.data.openid);
+        $('#photo').attr('src', res.data.headimgurl);
+    }).catch(e =>{
+        alert(e)
+    });
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        return r && r[2] ? (decodeURI(r[2]) || null) :  null; //返回参数值
+    }
+</script>
+</body>
+</html>
