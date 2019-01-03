@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style src="reset.css"></style>
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/axios.min.js"></script>
+    <script>
+        //通过window.screen.width获取屏幕的宽度
+        var offWidth = window.screen.width / 10; //这里用宽度/30表示1rem取得的px
+        //把rem的值复制给顶级标签html的font-size
+        document.getElementsByTagName("html")[0].style.fontSize = offWidth + 'px';
+    </script>
+    <style>
+        html,body {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .price-container {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            justify-items: center;
+            width: 44%;
+            height: 1.4rem;
+            margin-left: 4.5%;
+            margin-right: 0%;
+            background-color: #FFF;
+            border: solid 1px #62c4f6;
+            box-sizing: border-box;
+            border-radius: 5px;
+            color: #62c4f6;
+            margin-bottom: 2%;
+            align-items: baseline;
+            line-height: 1.4rem;
+        }
+        .price-container span {
+            margin: 0;
+            padding: 0;
+            font-size: 0.7rem;
+        }
+        .price-container span:nth-child(2n) {
+            margin: 0;
+            padding: 0;
+            font-size: 0.4rem;
+        }
+        .price-container:nth-child(2n) {
+            margin-left: 0%;
+            margin-right: 4%;
+        }
+        .active {
+            background-color: #62c4f6;
+            border: solid 1px #62c4f6;
+            color: #FFF;
+        }
+        .button {
+            margin-top: 5%;
+            height: 1.3rem;
+            width: 91%;
+            margin-left: 4.5%;
+            background-color: #62c4f6;
+            border-radius: 5PX;
+            text-align: center;
+            font-size: 0.5rem;
+            color: #FFF;
+            cursor: pointer;
+            line-height: 1.3rem;
+        }
+    </style>
+    <title>价格列表</title>
+</head>
+<body>
+<div style="margin-top: 0.8rem">
+    <div class="price-container active" data-price="0.01">
+        <span>0.01</span>
+        <span>元</span>
+    </div>
+    <div class="price-container" data-price="0.02">
+        <span>0.02</span>
+        <span>元</span>
+    </div>
+    <div class="price-container" data-price="0.03">
+        <span>0.03</span>
+        <span>元</span>
+    </div>
+    <div class="price-container" data-price="0.04">
+        <span>0.04</span>
+        <span>元</span>
+    </div>
+</div>
+<div>
+    <div class="button">立即充值</div>
+</div>
+<script>
+    var openId;
+    $('.price-container').click(function () {
+       $('.price-container').each(function () {
+           $(this).removeClass('active');
+       });
+       $(this).addClass('active');
+    });
+    $('.button').click(function () {
+        if (!openId) {
+            alert('速度太快了，稍等哦');
+            return;
+        }
+        var price = $('.active').data('price');
+        axios.get('http://demo.tijos.net/pay?openid=' + openId + '&money=' + price).then(res => {
+            if (typeof WeixinJSBridge == "undefined"){
+                if( document.addEventListener ){
+                    document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+                }else if (document.attachEvent){
+                    document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                    document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+                }
+            }else{
+                var data = {
+                    appId: res.data.appId,
+                    timeStamp: res.data.timeStamp,
+                    nonceStr: res.data.nonceStr,
+                    package: res.data.package,
+                    signType: res.data.signType,
+                    paySign: res.data.paySign
+                }
+                console.log(data);
+                WeixinJSBridge.invoke('getBrandWCPayRequest',
+                    data, function(res) {
+                        if(res.err_msg == 'get_brand_wcpay_request:ok' ){
+                        // 使用以上方式判断前端返回,微信团队郑重提示：
+                        //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+                        alert('支付成功');
+                    }
+                    console.log(res)
+                });
+            }
+        }).catch(e =>{
+            alert(e)
+        });
+    });
+
+    // 获取url参数
+    axios.get('http://demo.tijos.net/wx/userInfo/' + getUrlParam('code')).then(res =>{
+        openId = res.data.openid;
+    }).catch(e =>{
+        alert(e)
+    });
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        return r && r[2] ? (decodeURI(r[2]) || null) :  null; //返回参数值
+    }
+</script>
+</body>
+</html>

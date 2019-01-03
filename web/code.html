@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="plugin/layui-v2.4.5/layui/css/layui.css">
+    <script src="lib/jquery.min.js"></script>
+    <script src="plugin/layui-v2.4.5/layui/layui.all.js"></script>
+    <script src="lib/qr-code-with-logo.browser.min.js"></script>
+    <script src="lib/axios.min.js"></script>
+    <script></script>
+    <title>生成二维码</title>
+</head>
+<body>
+<div style="display: flex;justify-content: center">
+    <div style="width: 500px;height: 300px;color: #C9C5C5">
+        <span style="margin-top: 50px;display: inline-block;margin-left: 60px;font-size: 18px;">输入产品标识与设备标识生成专属微信二维码</span>
+        <div class="layui-form" style="margin: 50px;margin-left: 0;margin-top: 40px">
+            <div class="layui-form-item">
+                <label class="layui-form-label">产品标识</label>
+                <div class="layui-input-block">
+                    <input id="product" type="text" name="title" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input"
+                           style="color: #C9C5C5">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">设备标识</label>
+                <div class="layui-input-block">
+                    <input id="device" type="text" name="title" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input"
+                           style="color: #C9C5C5">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" style="float: right;margin-top: 10px">生成二维码</button>
+                </div>
+            </div>
+        </div>
+        <canvas id="canvas" style="margin-left: 100px"></canvas>
+    </div>
+</div>
+<script>
+    let url = 'http://demo.tijos.net/create_QRCode'
+    $('button').click(function () {
+        axios.get(url, {
+            params: {
+                productkey: $('#product').val(),
+                devicekey: $('#device').val()
+            }
+        }).then(res => {
+            QrCodeWithLogo.toCanvas({
+                canvas: document.getElementById('canvas'), // 换成你的canvas节点
+                content: res.data || '',
+                width: 300,
+                download: true,
+                logo: {
+                    borderRadius: 0,
+                    src: 'logo.png',
+                }
+            })
+        })
+    });
+</script>
+
+</body>
+</html>

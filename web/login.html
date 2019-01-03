@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="lib/axios.min.js"></script>
+    <script src="lib/jquery.min.js"></script>
+    <title>登录</title>
+</head>
+<body>
+<a id="url" href="">去登录了</a>
+</body>
+<script>
+    let appId = 'wxd707c87c8298d571';
+    let host = `http://demo.tijos.net`;
+    let redirectUrl = `/user.html`;
+    //微信授权api,接口返回code,点击授权后跳转到重定向地址并带上code参数
+    let authorizeUrl = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=` +
+        `${host}${redirectUrl}&response_type=code&scope=snsapi_userinfo&state=State#wechat_redirect`
+    $('#url').attr('href', authorizeUrl);
+    let url = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd707c87c8298d571&redirect_uri=http://cloud.tijos.net/wechat/price.html&response_type=code&scope=snsapi_userinfo&state=State#wechat_redirect`
+</script>
+</html>
