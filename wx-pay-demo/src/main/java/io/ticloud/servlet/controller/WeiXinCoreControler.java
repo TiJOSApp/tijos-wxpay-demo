@@ -25,8 +25,8 @@ public class WeiXinCoreControler {
     private static final long serialVersionUID = -5021188348833856475L;
     private static Logger logger = LoggerFactory.getLogger(WeiXinCoreControler.class);
 
-    private static final String APP_ID = "wxd707c87c8298d571";
-    private static final String SECRET = "a2fa7912493dd4870604d394885afe74";
+    private static final String APP_ID = "";
+    private static final String SECRET = "";
     private AccessTokenEnity accessToken = null;
 
     @RequestMapping("wx")

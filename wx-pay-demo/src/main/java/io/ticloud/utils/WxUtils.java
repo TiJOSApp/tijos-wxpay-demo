@@ -25,8 +25,8 @@ import java.security.NoSuchProviderException;
 
 public class WxUtils {
 
-    private static final String APP_ID = "wx4de3b98101fdc2b9";
-    private static final String SECRET = "dc52077dcba30effaa9a28b9c3cb3989";
+    private static final String APP_ID = "";
+    private static final String SECRET = "";
     private CloseableHttpClient httpClient = HttpClients.createDefault();
 
     public String getOpenId(String code){
@@ -79,7 +79,7 @@ public class WxUtils {
         StringBuffer buffer = null;
         try {
             //修改appID，secret
-            String tokenUrl="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+"wx4de3b98101fdc2b9"+"&secret="+"dc52077dcba30effaa9a28b9c3cb3989";
+            String tokenUrl="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+""+"&secret="+"";
             //建立连接
             URL url = new URL(tokenUrl);
             httpUrlConn = (HttpsURLConnection) url.openConnection();

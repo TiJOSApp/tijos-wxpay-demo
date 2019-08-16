@@ -21,17 +21,17 @@ public class MyConfig extends WXPayConfig {
 
     @Override
     public String getAppID() {
-        return "wxd707c87c8298d571";
+        return "";
     }
 
     @Override
     public String getMchID() {
-        return "1521989221";
+        return "";
     }
 
     @Override
     public String getKey() {
-        return "6QdZw7DViGh62bFe9MY9GaXHRriOE1IC";
+        return "";
     }
 
     @Override

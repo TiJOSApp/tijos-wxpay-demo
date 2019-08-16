@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/wx")
 public class WxController {
-    private static final String APP_ID = "wx4de3b98101fdc2b9";
-    private static final String SECRET = "dc52077dcba30effaa9a28b9c3cb3989";
+    private static final String APP_ID = "";
+    private static final String SECRET = "";
     private Logger log = LoggerFactory.getLogger(getClass());
 
     @RequestMapping("/userInfo/{code}")
@@ -22,7 +22,7 @@ public class WxController {
         log.info("开始请求");
         User user = null;
         try {
-            String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + "wxd707c87c8298d571" + "&secret=" + "a2fa7912493dd4870604d394885afe74" + "&code=" + code + "&grant_type=authorization_code";
+            String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + "" + "&secret=" + "" + "&code=" + code + "&grant_type=authorization_code";
             JSONObject urlJson = GetUrlUtils.getUrl(url);
             String accessToken = urlJson.getString("access_token");
             String openid = urlJson.getString("openid");
